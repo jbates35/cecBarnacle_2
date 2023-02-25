@@ -38,7 +38,6 @@ void setup() {
 
   analogWrite(mtrPins::MOTOR1_PWM, 150);
   analogWrite(mtrPins::MOTOR2_PWM, 150);
-  
   dir==BRAKE;
 
 }
