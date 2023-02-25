@@ -16,6 +16,19 @@ const int RECV_PIN = 3;
 #define SERVO_UP 100
 #define SERVO_DOWN 80
 
+#define INTENSITY_TH 100
+
+#define BUZZER_PIN 
+
+
+#define AD5 A5 //Define analog port A5
+
+#define PR_LED 13 //Define digital port 13
+
+ 
+
+int Intensity = 0;//Illuminance value
+
 #include <IRremote.h>
 
 // Decoding the hex values that the remote sends into readable user data
@@ -72,6 +85,15 @@ void setup() {
   isFault=false;
   isRunning=false;
 
+  if(Intensity>= INTENSITY_TH) {
+    isFault=false;
+  } else {
+    isFault=true;
+  }
+
+  //BUZZER SETUP
+
+   pinMode(PR_LED, OUTPUT);//Set LED to output mode
 
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -108,6 +130,9 @@ void setup() {
 }
 
 void loop() {
+
+  pinMode(PR_LED, OUTPUT);//Set LED to output mode
+  Intensity = analogRead(AD5); //Read the value of analog port AD5 and save it in the Intensity variable
 
   if(isFault)
   {
@@ -189,7 +214,10 @@ void press_button(uint32_t button_pressed) {
   break;
   case ASTERISK:
    // execute ASTERIK logic
-   Serial.println("ASTERISK PRESSED");
+  Serial.println("ASTERISK PRESSED");
+  //////////// RAISE SERVO
+  liftServo.write(SERVO_DOWN);
+
   break;
   case ZERO:
    // execute ZERO logic
@@ -198,6 +226,8 @@ void press_button(uint32_t button_pressed) {
   case NUMBER_SIGN:
    // execute number sign logic
    Serial.println("NUMBER SIGN PRESSED");
+  //////////// RAISE SERVO
+  liftServo.write(SERVO_UP);
   break;
   default:
    // for debugging
