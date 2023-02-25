@@ -53,7 +53,7 @@ void BMotor::run()
 
         default:
             break;
-    }
+    }       
     
     if(dir==mtrDir::BRAKE)
     {
@@ -64,7 +64,6 @@ void BMotor::run()
         analogWrite(pwmPin, (int) currentPWMVal * multi);
 
     }
-    
 }
 
 void BMotor::brake()
@@ -109,7 +108,15 @@ bool BMotor::isOn()
 
 void BMotor::setPwmVal(int val)
 {
-    currentPWMVal = val;
+    currentPWMVal = val;    
+    if(dir==mtrDir::BRAKE)
+    {
+        analogWrite(pwmPin, 0);
+    }
+    else
+    {
+        analogWrite(pwmPin, (int) currentPWMVal); // * multi );
+    }
 }
 
 int BMotor::getPwmVal()

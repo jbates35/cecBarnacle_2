@@ -4,6 +4,17 @@
 BMotor motorL;
 BMotor motorR;
 
+int dir;
+
+enum 
+{
+  REVERSE,
+  FORWARD,
+  LEFT,
+  RIGHT,
+  BRAKE
+};
+
 namespace mtrPins
 {
   const int MOTOR1_CW = 22;
@@ -16,27 +27,71 @@ namespace mtrPins
 }
 
 void setup() {
-  // put your setup code here, to run once:
-  motorL.init(mtrPins::MOTOR1_CW, mtrPins::MOTOR1_CCW, mtrPins::MOTOR1_PWM);
-  motorL.init(mtrPins::MOTOR2_CW, mtrPins::MOTOR2_CCW, mtrPins::MOTOR2_PWM);
+  //put your setup code here, to run once:
 
-  motorL.turnOn();
-  motorL.setDirection(mtrDir::FORWARD);
-  motorL.setPwmVal(100);
-  motorL.setMultiplier(1);
+  pinMode(mtrPins::MOTOR1_CW, OUTPUT);
+  pinMode(mtrPins::MOTOR1_CCW, OUTPUT);
+  pinMode(mtrPins::MOTOR1_PWM, OUTPUT);
+  pinMode(mtrPins::MOTOR2_CW, OUTPUT);
+  pinMode(mtrPins::MOTOR2_CCW, OUTPUT);
+  pinMode(mtrPins::MOTOR2_PWM, OUTPUT);
 
-  motorR.turnOn();
-  motorR.setDirection(mtrDir::FORWARD);
-  motorR.setPwmVal(100);
-  motorR.setMultiplier(1);
+  dir==BRAKE;
 
 }
 
 void loop() {
 
-  //Needed for motors to do what they need to do
-  motorL.run();
-  motorR.run();
-  
+  switch(dir)
+  {
+    case FORWARD:
+      digitalWrite(mtrPins::MOTOR1_CW, HIGH);
+      digitalWrite(mtrPins::MOTOR1_CCW,LOW);
+      digitalWrite(mtrPins::MOTOR2_CW, HIGH);
+      digitalWrite(mtrPins::MOTOR2_CCW,LOW);
 
+
+    break;
+    case REVERSE:
+      digitalWrite(mtrPins::MOTOR1_CW, LOW);
+      digitalWrite(mtrPins::MOTOR1_CCW,HIGH);
+      digitalWrite(mtrPins::MOTOR2_CW, LOW);
+      digitalWrite(mtrPins::MOTOR2_CCW,HIGH);
+      break;
+
+
+    break;
+    case LEFT:
+      digitalWrite(mtrPins::MOTOR1_CW, LOW);
+      digitalWrite(mtrPins::MOTOR1_CCW,HIGH);
+      digitalWrite(mtrPins::MOTOR2_CW, HIGH);
+      digitalWrite(mtrPins::MOTOR2_CCW,LOW);
+      break;
+
+
+
+    break;
+    case RIGHT:
+      digitalWrite(mtrPins::MOTOR1_CW, HIGH);
+      digitalWrite(mtrPins::MOTOR1_CCW,LOW);
+      digitalWrite(mtrPins::MOTOR2_CW, LOW);
+      digitalWrite(mtrPins::MOTOR2_CCW,HIGH);
+      break;
+
+
+    break;
+    case BRAKE:
+      digitalWrite(mtrPins::MOTOR1_CW, LOW);
+      digitalWrite(mtrPins::MOTOR1_CCW,LOW);
+      digitalWrite(mtrPins::MOTOR2_CW, LOW);
+      digitalWrite(mtrPins::MOTOR2_CCW,LOW);
+      break;
+
+    default:
+    break;
+
+  }
+  
+  
 }
+
