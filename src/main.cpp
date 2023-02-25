@@ -49,22 +49,32 @@ void press_button(uint32_t button_pressed) {
   case UP:
     // execute UP logic
     Serial.println("UP PRESSED");
+
+    // Move forwards
   break;
   case DOWN:
     // execute DOWN logic
     Serial.println("DOWN PRESSED");
+
+    // Move backwards
   break;
   case LEFT:
     // execute LEFT logic
     Serial.println("LEFT PRESSED");
+
+    // Continuously turn left
   break;
   case RIGHT:
    // execute RIGHT logic
    Serial.println("RIGHT PRESSED");
+
+   // Continuously turn right
   break;
   case OK:
    // execute OK logic
    Serial.println("OK PRESSED");
+
+   // Stop everything
   break;
   case ASTERISK:
    // execute ASTERIK logic
