@@ -22,10 +22,21 @@ void setup() {
 
   motorL.turnOn();
   motorL.setDirection(mtrDir::FORWARD);
-  
+  motorL.setPwmVal(100);
+  motorL.setMultiplier(1);
+
+  motorR.turnOn();
+  motorR.setDirection(mtrDir::FORWARD);
+  motorR.setPwmVal(100);
+  motorR.setMultiplier(1);
+
 }
 
 void loop() {
+
+  //Needed for motors to do what they need to do
+  motorL.run();
+  motorR.run();
   
 
 }
