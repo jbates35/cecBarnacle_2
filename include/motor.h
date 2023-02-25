@@ -1,13 +1,13 @@
 #pragma once
+#include <Arduino.h>
 
 enum class mtrDir
 {
     REVERSE,
     FORWARD,
     BRAKE
-}
+};
 
-#include <Arduino.h>
 class BMotor
 {
 public:
