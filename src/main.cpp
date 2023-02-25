@@ -87,6 +87,11 @@ void setup() {
 
 void loop() {
 
+  if(millis()-timePrev >= 1000)
+  {
+    timePrev = millis();
+    Serial.println("asdf");
+  }
 
   // put your main code here, to run repeatedly:
   if (IrReceiver.decode()) {  
@@ -96,7 +101,7 @@ void loop() {
       press_button(IrReceiver.decodedIRData.decodedRawData);
     }
     // implementing millis()
-    delay(200);
+    //delay(200);
     IrReceiver.resume();
   }
 
