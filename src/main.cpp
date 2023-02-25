@@ -36,6 +36,9 @@ void setup() {
   pinMode(mtrPins::MOTOR2_CCW, OUTPUT);
   pinMode(mtrPins::MOTOR2_PWM, OUTPUT);
 
+  analogWrite(mtrPins::MOTOR1_PWM, 150);
+  analogWrite(mtrPins::MOTOR2_PWM, 150);
+  
   dir==BRAKE;
 
 }
@@ -91,7 +94,7 @@ void loop() {
     break;
 
   }
-  
+
   
 }
 
