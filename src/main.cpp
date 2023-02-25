@@ -1,8 +1,20 @@
 #include <Arduino.h>
+
+#include <Servo.h>
+
 #include "motor.h"
 
 BMotor motorL;
 BMotor motorR;
+
+// Global declarations
+const int RECV_PIN = 3;
+#define FAULT_LED 50
+#define RUNNING_LED 51
+
+#define SERVO_PIN 7
+#define SERVO_UP 100
+#define SERVO_DOWN 80
 
 #include <IRremote.h>
 
@@ -24,12 +36,14 @@ enum button {
 // Creating enumarated object
 button button_pressed;
 
-// Global declarations
-const int RECV_PIN = 3;
 
 int time, timePrev;
 
 int dir;
+
+bool isFault, isRunning;
+
+Servo liftServo;
 
 enum 
 {
@@ -55,6 +69,10 @@ namespace mtrPins
 
 void setup() {
 
+  isFault=false;
+  isRunning=false;
+
+
   // put your setup code here, to run once:
   Serial.begin(9600);
   // Enable the IR receiver
@@ -62,6 +80,10 @@ void setup() {
   IrReceiver.enableIRIn();
 
   //put your setup code here, to run once:
+  pinMode(FAULT_LED, OUTPUT);
+  pinMode(RUNNING_LED, OUTPUT);
+
+  liftServo.attach(SERVO_PIN);
 
   pinMode(mtrPins::MOTOR1_CW, OUTPUT);
   pinMode(mtrPins::MOTOR1_CCW, OUTPUT);
@@ -78,7 +100,7 @@ void setup() {
   digitalWrite(mtrPins::MOTOR2_CW, HIGH);
   digitalWrite(mtrPins::MOTOR2_CCW,LOW);
   
-  dir==BRAKE;
+  dir=BRAKE;
 
   time=millis();
   timePrev = millis();
@@ -87,11 +109,30 @@ void setup() {
 
 void loop() {
 
+  if(isFault)
+  {
+    digitalWrite(FAULT_LED, HIGH);
+  }
+  else
+  {
+    digitalWrite(FAULT_LED, LOW);
+  }
+
+  if(dir==BRAKE)
+  {
+    digitalWrite(RUNNING_LED, LOW);
+  } 
+  else
+  {
+    digitalWrite(RUNNING_LED, HIGH);
+  }
+
   if(millis()-timePrev >= 1000)
   {
     timePrev = millis();
     Serial.println("asdf");
   }
+
 
   // put your main code here, to run repeatedly:
   if (IrReceiver.decode()) {  
@@ -104,8 +145,6 @@ void loop() {
     //delay(200);
     IrReceiver.resume();
   }
-
-  
 }
 
 
@@ -185,7 +224,7 @@ void press_button(uint32_t button_pressed) {
 
 
     break;
-    case MLEFT:
+    case MRIGHT:
       digitalWrite(mtrPins::MOTOR1_CW, LOW);
       digitalWrite(mtrPins::MOTOR1_CCW,HIGH);
       digitalWrite(mtrPins::MOTOR2_CW, HIGH);
@@ -195,7 +234,7 @@ void press_button(uint32_t button_pressed) {
 
 
     break;
-    case MRIGHT:
+    case MLEFT:
       digitalWrite(mtrPins::MOTOR1_CW, HIGH);
       digitalWrite(mtrPins::MOTOR1_CCW,LOW);
       digitalWrite(mtrPins::MOTOR2_CW, LOW);
