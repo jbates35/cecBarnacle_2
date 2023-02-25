@@ -25,7 +25,9 @@ enum button {
 button button_pressed;
 
 // Global declarations
-const int RECV_PIN = 7;
+const int RECV_PIN = 3;
+
+int time, timePrev;
 
 int dir;
 
@@ -78,11 +80,16 @@ void setup() {
   
   dir==BRAKE;
 
+  time=millis();
+  timePrev = millis();
+
 }
 
 void loop() {
+
+
   // put your main code here, to run repeatedly:
-  if (IrReceiver.decode()) {
+  if (IrReceiver.decode()) {  
     // Decodes the pressed button into the functionality you want it to have
     if (IrReceiver.decodedIRData.decodedRawData != 0)
     {
@@ -95,6 +102,8 @@ void loop() {
 
   
 }
+
+
 
 void press_button(uint32_t button_pressed) {
  switch (button_pressed) {
@@ -202,5 +211,4 @@ void press_button(uint32_t button_pressed) {
 
   }
   
-  Serial.println("We're here...");
 }
